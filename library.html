@@ -1,0 +1,302 @@
+<! DOCTYPE html>
+<html>
+<head>
+	<b><center>LIBRARY MANAGEMENT<center></b>
+	<script src="web3.min.js"></script>
+
+</head><br>
+<body style="background-color:lightgreen"><center>
+
+
+   book details:<br>
+	<input type="Number" id="isblno" value=""/>
+	<input type="Number" id="bookid"/>
+	<button type="button" onclick="addbook()">adbook</button><br><br>
+
+   user details:<br>
+	<input type="Number" id="uid" value=""/>
+	<input type="Number" id="userid" value=""/>
+	<button type="button" onclick="adduser()">adduser</button><br><br>
+  
+   getbooks:<br>
+	<input type="Number" id="isblno1" value=""/>
+	<input type="Number" id="uid1" value=""/>
+	<button type="button" onclick="getbook()">getbook</button><br><br>
+
+  returnbooks:<br>
+	<input type="Number" id="uid2" value=""/>
+	<input type="Number" id="isblno2" value=""/>
+	<button type="button" onclick="retbook()">retbook</button><br><br>
+
+   search:<br>
+	<input type="Number" id="isblno3" value=""/>
+	<button type="button" onclick="search()">search</button><br><br>
+  
+   show:
+	<button type="button" onclick="show()">show</button><br><br><br>
+
+   
+<script>
+       
+        
+        web3.eth.defaultAccount = web3.eth.accounts[0];
+        var librarys = web3.eth.contract([
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "show",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "isblno",
+				"type": "uint256"
+			}
+		],
+		"name": "search",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "User",
+		"outputs": [
+			{
+				"name": "u_id",
+				"type": "uint256"
+			},
+			{
+				"name": "count",
+				"type": "uint256"
+			},
+			{
+				"name": "ubook",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "Books",
+		"outputs": [
+			{
+				"name": "isbl_no",
+				"type": "uint256"
+			},
+			{
+				"name": "b_count",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "isblno",
+				"type": "uint256"
+			},
+			{
+				"name": "i_no",
+				"type": "uint256"
+			}
+		],
+		"name": "addbooks",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "no",
+				"type": "uint256"
+			},
+			{
+				"name": "uid",
+				"type": "uint256"
+			}
+		],
+		"name": "addusers",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "isblno",
+				"type": "uint256"
+			},
+			{
+				"name": "no",
+				"type": "uint256"
+			}
+		],
+		"name": "getbooks",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "no",
+				"type": "uint256"
+			},
+			{
+				"name": "isblno",
+				"type": "uint256"
+			}
+		],
+		"name": "r_book",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+]);
+var library = librarys.at('0x961631e3187445ac43ba59181b5ad7dd56ce436e');
+ if(web3.isConnected()) {
+  
+        console.log("Ok");
+        
+      } else {
+        console.log("no");
+      }
+      web3.version.getNetwork((err, netId) => {
+            switch (netId) {
+              case "1":
+                console.log('This is mainnet')
+                break
+              case "2":
+                console.log('This is the deprecated Morden test network.')
+                break
+              case "3":
+                console.log('This is the ropsten test network.')
+                break
+              case "4":
+                console.log('This is the Rinkeby test network.')
+                break
+              case "42":
+                console.log('This is the Kovan test network.')
+                break
+              default:
+                console.log('This is an unknown network.')
+            }
+        })
+
+function addbook(){
+alert("warninng");
+	var x=document.getElementById("isblno").value;
+	var y=document.getElementById("bookid").value; 							
+	library.addbooks(x,y, function(error,result){
+			console.log("result");
+   alert(result);
+		
+});
+       
+}
+function adduser(){
+alert("warninng");
+	var x=document.getElementById("uid").value;
+	var y=document.getElementById("userid").value;
+	library.addusers(x,y, function(error,result){
+			console.log("result");
+	alert(result);
+});}
+function getbook(){
+alert("warning");
+	var x=document.getElementById("isblno1").value;
+	var y=document.getElementById("uid1").value;
+	library.getbooks(x,y, function (error,result){
+		console.log("result");
+	alert(result);
+});
+}
+function retbook(){
+alert("warninng");
+	var x=document.getElementById("uid2").value;
+	var y=document.getElementById("isblno2").value;
+	library.r_book(x,y, function (error,result){
+			console.log(result);
+	alert(result);
+});
+}
+function search(){
+alert("warninng");
+ 	var x=document.getElementById("isblno3").value;
+	library.search(x, function(error,result){
+		console.log(result);
+	alert(result);
+});
+}
+function show(){
+alert("warning");
+    library.show(function(error,result){
+		console.log(result);
+	alert(result);
+});
+}
+
+
+</script>
+</center>
+</body>
+</html>
